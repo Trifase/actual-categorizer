@@ -32,7 +32,7 @@ An interactive Python script to inspect and categorize transactions in your self
 Run the script using `uv`:
 
 ```bash
-uv run python categorize.py
+uv run categorize
 ```
 
 ### Interactive Commands
