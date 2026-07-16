@@ -12,3 +12,6 @@ dependencies = [
 
 [project.scripts]
 categorize = "categorize:run_categorization"
+
+[tool.uv]
+package = true
