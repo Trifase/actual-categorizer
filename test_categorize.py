@@ -3,6 +3,9 @@ Tests for Actual Budget Transaction Categorizer
 Verifies the suggestion engine logic using mock objects.
 """
 
+import os
+os.environ["ACTUAL_LANGUAGE"] = "en"
+
 from categorize import suggest_categories
 
 
