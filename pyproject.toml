@@ -16,10 +16,12 @@ dependencies = [
 
 [project.scripts]
 categorize = "categorize:run_categorization"
+cleanup = "cleanup:run_cleanup"
 
 [tool.uv]
 package = true
 
 [tool.hatch.build.targets.wheel.force-include]
 "categorize.py" = "categorize.py"
+"cleanup.py" = "cleanup.py"
 "locales" = "locales"
