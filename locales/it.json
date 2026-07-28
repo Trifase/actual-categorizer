@@ -77,6 +77,7 @@
   "cleanup_select_target": "Seleziona il beneficiario da MANTENERE (1-{max}, N per crearne uno nuovo, S per saltare, Q per uscire)",
   "cleanup_new_payee_prompt": "Inserisci il nome del nuovo beneficiario principale: ",
   "cleanup_new_payee_created": "[green][OK] Creato nuovo beneficiario: '{name}'[/green]",
+  "cleanup_payee_exists": "[yellow]Il beneficiario '{name}' esiste già. Verrà riutilizzato come principale.[/yellow]",
   "cleanup_select_merge": "Seleziona i beneficiari da UNIRE (numeri separati da virgole, o premi Invio per tutti gli altri)",
   "cleanup_search_term_prompt": "Inserisci il termine di ricerca per la regola di pre-import (default: '{default}' / premi Invio)",
   "cleanup_confirm_merge": "Unire {count} beneficiari in '{target}' e creare la regola di pre-import per '{search}'?",

@@ -77,6 +77,7 @@
   "cleanup_select_target": "Select the target payee to KEEP (1-{max}, N to create new, S to skip, Q to exit)",
   "cleanup_new_payee_prompt": "Enter name for the new target payee: ",
   "cleanup_new_payee_created": "[green][OK] Created new payee: '{name}'[/green]",
+  "cleanup_payee_exists": "[yellow]Payee '{name}' already exists. Reusing it as target.[/yellow]",
   "cleanup_select_merge": "Select payees to MERGE (comma-separated numbers, or press Enter for all others)",
   "cleanup_search_term_prompt": "Enter search term for the pre-import rule (default: '{default}' / press Enter)",
   "cleanup_confirm_merge": "Merge {count} payees into '{target}' and create pre-import rule for '{search}'?",

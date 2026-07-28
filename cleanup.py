@@ -197,12 +197,28 @@ def run_cleanup():
                     if not new_name:
                         console.print("[red]Empty name. Skipping cluster.[/red]")
                         continue
-                    # Create the new payee in the database
-                    from actual.queries import create_payee
-                    target_payee = create_payee(actual.session, new_name)
-                    console.print(t("cleanup_new_payee_created", name=new_name))
-                    # All current cluster members are candidates to be merged into this new payee
-                    candidates = cluster
+                    
+                    # Check if payee already exists in active_payees
+                    existing_payee = None
+                    new_name_lower = new_name.strip().lower()
+                    for p in active_payees:
+                        if p.name.strip().lower() == new_name_lower:
+                            existing_payee = p
+                            break
+
+                    if existing_payee:
+                        target_payee = existing_payee
+                        console.print(t("cleanup_payee_exists", name=existing_payee.name))
+                    else:
+                        # Create the new payee in the database
+                        from actual.queries import create_payee
+                        target_payee = create_payee(actual.session, new_name)
+                        console.print(t("cleanup_new_payee_created", name=new_name))
+                        active_payees.append(target_payee)
+
+                    # All current cluster members are candidates to be merged into this target payee
+                    # (excluding the target payee itself if it happens to exist in this cluster)
+                    candidates = [p for p in cluster if p.id != target_payee.id]
                 else:
                     try:
                         target_idx = int(choice) - 1
