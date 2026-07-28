@@ -37,19 +37,27 @@ console = Console()
 def normalize_payee_name(name):
     """
     Normalizes payee names by removing billing numbers, invoice prefixes,
-    and extra spaces to group duplicates.
+    transaction boilerplate, and extra spaces to group duplicates.
     """
     if not name:
         return ""
     # Lowercase
     s = name.lower().strip()
-    # Remove common invoice prefixes in IT/EN (e.g. "n:", "n.", "inv:", "fattura:", "fatt:")
+    # 1. Remove common transaction prefixes/boilerplate (case insensitive)
+    s = re.sub(r"\b(pagamento su circuito internazionale|pagamento su circuito|pagamento pos|pos esercente|acquisto pos|transazione pos|commissioni|spese|commissioni acquisto)\b", "", s)
+    # 2. Remove SumUp processor markers
+    s = re.sub(r"\b(sumup\s*\*|sum\s*\*|sumup)\b", "", s)
+    # 3. Remove trailing card metadata and date boilerplate
+    s = re.sub(r"\b(operazione carta|operazione|carta)\b.*", "", s)
+    # 4. Remove common invoice prefixes in IT/EN (e.g. "n:", "n.", "inv:", "fattura:", "fatt:")
     # Matches "n", "n.", "inv", "fattura" followed by optional colon/spaces and digits
     s = re.sub(r"\b(n|n\.|inv|fattura|fatt|no|n°|n\.o)\b[\s:]*\d+.*", "", s)
-    # Remove standard numeric codes (strings of 5+ digits, with optional separators like / or -)
+    # 5. Remove standard numeric codes (strings of 5+ digits, with optional separators like / or -)
     s = re.sub(r"\b\d{5,}([\/\-]\d+)?\b", "", s)
+    # 6. Remove common city/country codes at the end
+    s = re.sub(r"\b(ita|milano|roma|torino|palma di mont|enna|agrigento)\b", "", s)
     # Remove any trailing numbers, spaces, or punctuation/separators
-    s = re.sub(r"[\s\d\-:\/\.]+$", "", s)
+    s = re.sub(r"[\s\d\-:\/\.\*]+$", "", s)
     # Strip extra spaces
     s = re.sub(r"\s+", " ", s).strip()
     return s

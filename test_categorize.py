@@ -118,10 +118,11 @@ class MockPayeeObj:
         self.tombstone = tombstone
 
 def test_normalization():
-    assert normalize_payee_name("Commissioni Octopus Energy Italia Sr N: 116204929") == "commissioni octopus energy italia sr"
+    assert normalize_payee_name("Commissioni Octopus Energy Italia Sr N: 116204929") == "octopus energy italia sr"
     assert normalize_payee_name("Octopus Energy Italia Sr") == "octopus energy italia sr"
     assert normalize_payee_name("Enel Energia S.p.A. N: 2026/1234") == "enel energia s.p.a"
     assert normalize_payee_name("Enel S.p.A. 1234567") == "enel s.p.a"
+    assert normalize_payee_name("Pagamento Su Circuito Internazionale Sumup *Eredi Pisciott Agrigento Ita Operazione Carta ****4592 Del 22.03.2025") == "eredi pisciott"
     print("[OK] test_normalization passed")
 
 def test_default_search_term():
