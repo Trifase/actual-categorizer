@@ -10,6 +10,7 @@ import sys
 import re
 import shutil
 import difflib
+import json
 from collections import defaultdict, Counter
 from pathlib import Path
 
@@ -156,8 +157,28 @@ def run_cleanup():
                 t_item.payee_id for t_item in all_txs if t_item.payee_id
             )
 
+            # Load ignored payees list
+            ignored_groups = []
+            ignored_file = Path("ignored_payees.json")
+            if ignored_file.exists():
+                try:
+                    with open(ignored_file, "r") as f:
+                        ignored_groups = [set(group) for group in json.load(f)]
+                except Exception:
+                    pass
+
             # Group payees into clusters
-            clusters = cluster_payees(active_payees)
+            raw_clusters = cluster_payees(active_payees)
+            clusters = []
+            for cluster in raw_clusters:
+                cluster_ids = {p.id for p in cluster}
+                is_ignored = False
+                for ignored_group in ignored_groups:
+                    if cluster_ids.issubset(ignored_group):
+                        is_ignored = True
+                        break
+                if not is_ignored:
+                    clusters.append(cluster)
 
             if not clusters:
                 console.print(f"\n{t('cleanup_no_duplicates')}")
@@ -190,6 +211,17 @@ def run_cleanup():
 
                 if choice.upper() == "S":
                     console.print(t("cleanup_skipped"))
+                    continue
+
+                if choice.upper() == "I":
+                    cluster_ids = {p.id for p in cluster}
+                    ignored_groups.append(cluster_ids)
+                    try:
+                        with open(ignored_file, "w") as f:
+                            json.dump([list(group) for group in ignored_groups], f)
+                        console.print(t("cleanup_ignored_persistently"))
+                    except Exception as e:
+                        console.print(f"[red]Error saving ignored list: {e}[/red]")
                     continue
 
                 if choice.upper() == "N":

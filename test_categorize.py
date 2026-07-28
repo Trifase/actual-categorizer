@@ -150,6 +150,34 @@ def test_clustering():
     print("[OK] test_clustering passed")
 
 
+def test_persistent_ignore():
+    p1 = MockPayeeObj("1", "Octopus Energy Italia Sr")
+    p2 = MockPayeeObj("2", "Commissioni Octopus Energy Italia Sr N: 116204929")
+    p3 = MockPayeeObj("3", "Other Payee A")
+    p4 = MockPayeeObj("4", "Other Payee B N: 123")
+    
+    payees = [p1, p2, p3, p4]
+    raw_clusters = cluster_payees(payees)
+    assert len(raw_clusters) == 2
+    
+    ignored_groups = [{"1", "2"}]
+    
+    clusters = []
+    for cluster in raw_clusters:
+        cluster_ids = {p.id for p in cluster}
+        is_ignored = False
+        for ignored_group in ignored_groups:
+            if cluster_ids.issubset(ignored_group):
+                is_ignored = True
+                break
+        if not is_ignored:
+            clusters.append(cluster)
+            
+    assert len(clusters) == 1
+    assert clusters[0][0].id in ("3", "4")
+    print("[OK] test_persistent_ignore passed")
+
+
 if __name__ == "__main__":
     test_exact_payee_id_match()
     test_notes_substring_match()
@@ -157,4 +185,5 @@ if __name__ == "__main__":
     test_normalization()
     test_default_search_term()
     test_clustering()
+    test_persistent_ignore()
     print("All tests passed successfully!")
