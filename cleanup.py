@@ -184,22 +184,36 @@ def run_cleanup():
                     default="1",
                 ).strip()
 
+                if choice.upper() == "Q":
+                    console.print("[yellow]Exiting wizard early. Moving to review phase.[/yellow]")
+                    break
+
                 if choice.upper() == "S":
                     console.print(t("cleanup_skipped"))
                     continue
 
-                try:
-                    target_idx = int(choice) - 1
-                    if not (0 <= target_idx < len(cluster)):
-                        raise ValueError()
-                except ValueError:
-                    console.print("[red]Invalid selection. Skipping this cluster.[/red]")
-                    continue
-
-                target_payee = cluster[target_idx]
-
-                # Get candidates for merging (all other payees in the cluster)
-                candidates = [p for i, p in enumerate(cluster) if i != target_idx]
+                if choice.upper() == "N":
+                    new_name = Prompt.ask(t("cleanup_new_payee_prompt")).strip()
+                    if not new_name:
+                        console.print("[red]Empty name. Skipping cluster.[/red]")
+                        continue
+                    # Create the new payee in the database
+                    from actual.queries import create_payee
+                    target_payee = create_payee(actual.session, new_name)
+                    console.print(t("cleanup_new_payee_created", name=new_name))
+                    # All current cluster members are candidates to be merged into this new payee
+                    candidates = cluster
+                else:
+                    try:
+                        target_idx = int(choice) - 1
+                        if not (0 <= target_idx < len(cluster)):
+                            raise ValueError()
+                    except ValueError:
+                        console.print("[red]Invalid selection. Skipping this cluster.[/red]")
+                        continue
+                    target_payee = cluster[target_idx]
+                    # Get candidates for merging (all other payees in the cluster)
+                    candidates = [p for i, p in enumerate(cluster) if i != target_idx]
 
                 # 2. Select which ones to merge (allows exclusions)
                 console.print(f"\n[cyan]Candidates for merging into '{target_payee.name}':[/cyan]")
