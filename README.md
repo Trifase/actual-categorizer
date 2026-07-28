@@ -52,7 +52,7 @@ Esegui la pulizia e consolidamento dei beneficiari duplicati:
 uv run cleanup
 ```
 
-### Comandi Interattivi
+### Comandi Interattivi (Categorizzazione)
 
 Per ogni transazione non categorizzata, vedrai una scheda con i dettagli della transazione e le seguenti opzioni:
 
@@ -62,6 +62,23 @@ Per ogni transazione non categorizzata, vedrai una scheda con i dettagli della t
 - **`[N]`**: Crea e assegna una nuova categoria (ti chiederà il nome ed il gruppo in cui inserirla).
 - **`[A]`**: Elenca tutte le categorie disponibili raggruppate per gruppo.
 - **`Qualsiasi testo`**: Digita una parola chiave (es. "spesa" o "cibo") per cercare le categorie attive. Se c'è una sola corrispondenza, ti chiederà conferma (puoi premere **Invio** per confermare). Se ce ne sono di più, mostrerà un elenco tra cui scegliere.
+
+### Comandi Interattivi (Pulizia Beneficiari)
+
+Per ogni gruppo di beneficiari duplicati rilevati, lo script ti guiderà attraverso le seguenti scelte:
+
+1. **Selezione del beneficiario da mantenere**:
+   - **`[1], [2], ...`**: Scegli uno dei beneficiari esistenti nel gruppo come principale.
+   - **`[N]`**: Crea un nuovo beneficiario (se inserisci un nome già esistente nel budget, lo script lo rileverà e lo riutilizzerà automaticamente, evitando doppioni).
+   - **`[S]`**: Salta il gruppo attuale (verrà riproposto alla prossima esecuzione).
+   - **`[I]`**: Ignora sempre (salva gli ID del gruppo nel file locale `ignored_payees.json` e non te lo proporrà mai più).
+   - **`[Q]`**: Esci anticipatamente (interrompe il ciclo e ti porta direttamente alla fase di salvataggio per applicare le modifiche accumulate fino a quel momento).
+2. **Selezione dei beneficiari da unire**:
+   - **`[Invio]`**: Unisci tutti gli altri beneficiari del gruppo in quello principale.
+   - **`Numeri separati da virgole (es. 1,3)`**: Scegli quali unire, escludendo gli altri dal merge.
+3. **Impostazione della regola**:
+   - **`[Invio]`**: Conferma la parola chiave di default (es. `"Octopus Energy"`).
+   - **`Qualsiasi testo`**: Imposta una parola chiave personalizzata per la regola di pre-importazione su Actual Budget.
 
 ---
 
@@ -157,7 +174,7 @@ Run the interactive payee cleanup wizard:
 uv run cleanup
 ```
 
-### Interactive Commands
+### Interactive Commands (Categorization)
 
 For each uncategorized transaction, you will see a box with transaction details and the following options:
 
@@ -167,6 +184,23 @@ For each uncategorized transaction, you will see a box with transaction details 
 - **`[N]`**: Create and assign a new category (prompts for name and category group).
 - **`[A]`**: List all available categories grouped by category group.
 - **`Any text`**: Type a keyword (like "gro" or "food") to search active categories. If there is a single match, it will prompt to confirm. If there are multiple, it will show a menu to select one.
+
+### Interactive Commands (Payee Cleanup)
+
+For each cluster of duplicate payees detected, the script will guide you through the following prompts:
+
+1. **Select the target payee to keep**:
+   - **`[1], [2], ...`**: Choose one of the existing payees in the cluster to keep as the target.
+   - **`[N]`**: Create a new payee name (if you enter a name that already exists in your budget, it will be reused automatically, avoiding duplicates).
+   - **`[S]`**: Skip this cluster for now (it will be proposed again next time).
+   - **`[I]`**: Ignore always (saves the cluster IDs to a local `ignored_payees.json` file and never shows it again).
+   - **`[Q]`**: Quit early (stops the wizard and moves directly to the review and commit stage to save what you have done so far).
+2. **Select payees to merge**:
+   - **`[Enter]`**: Merge all other payees in the cluster into the target.
+   - **`Comma-separated numbers (e.g. 1,3)`**: Select specific payees to merge, excluding the others.
+3. **Set the rule search term**:
+   - **`[Enter]`**: Confirm the default search term (e.g. `"Octopus Energy"`).
+   - **`Any text`**: Enter a custom search term for the automated pre-import mapping rule.
 
 ---
 
