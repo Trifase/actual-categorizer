@@ -89,5 +89,12 @@
   "cleanup_col_merged": "Beneficiari da Unire (Cancellare)",
   "cleanup_col_rule": "Termine Ricerca Regola",
   "cleanup_summary": "[yellow]Uniti {merged_count} beneficiari in {target_count} principali. Create {rules_count} regole.[/yellow]",
-  "cleanup_confirm_commit": "Sincronizzare e salvare queste modifiche sul server Actual Budget?"
+  "cleanup_confirm_commit": "Sincronizzare e salvare queste modifiche sul server Actual Budget?",
+  "remove_empty_welcome": "Benvenuto nello strumento di pulizia dei beneficiari vuoti!",
+  "remove_empty_scanning": "Scansione del database per beneficiari con 0 transazioni...",
+  "remove_empty_none": "[bold green][OK] Nessun beneficiario vuoto trovato. Il tuo database è pulito![/bold green]",
+  "remove_empty_found": "[yellow]Trovati {count} beneficiari con 0 transazioni:[/yellow]",
+  "remove_empty_confirm": "Sei sicuro di voler eliminare questi {count} beneficiari vuoti?",
+  "remove_empty_deleting": "Eliminazione dei beneficiari vuoti...",
+  "remove_empty_success": "[bold green][Success] Eliminati con successo {count} beneficiari vuoti![/bold green]"
 }

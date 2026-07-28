@@ -89,5 +89,12 @@
   "cleanup_col_merged": "Payees to Merge (Delete)",
   "cleanup_col_rule": "Rule Search Term",
   "cleanup_summary": "[yellow]Merged {merged_count} payees into {target_count} targets. Created {rules_count} rules.[/yellow]",
-  "cleanup_confirm_commit": "Sync and commit these changes to your Actual Budget server?"
+  "cleanup_confirm_commit": "Sync and commit these changes to your Actual Budget server?",
+  "remove_empty_welcome": "Welcome to the Empty Payees Cleanup tool!",
+  "remove_empty_scanning": "Scanning database for payees with 0 transactions...",
+  "remove_empty_none": "[bold green][OK] No empty payees found. Your database is clean![/bold green]",
+  "remove_empty_found": "[yellow]Found {count} payees with 0 transactions:[/yellow]",
+  "remove_empty_confirm": "Are you sure you want to delete these {count} empty payees?",
+  "remove_empty_deleting": "Deleting empty payees...",
+  "remove_empty_success": "[bold green][Success] Successfully deleted {count} empty payees![/bold green]"
 }

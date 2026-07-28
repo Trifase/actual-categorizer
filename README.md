@@ -17,6 +17,7 @@ Uno script Python interattivo per ispezionare e categorizzare le transazioni pri
 - **Configurazione Interattiva**: Ti chiede i dettagli di connessione se non sono configurati e li salva in sicurezza nel file locale `.env`.
 - **Supporto Multi-lingua (i18n)**: Tradotto completamente in italiano e inglese. Rileva la lingua impostata nella variabile `ACTUAL_LANGUAGE` nel file `.env`.
 - **Pulizia Beneficiari Duplicati (Cleanup Wizard)**: Trova automaticamente i beneficiari duplicati che variano solo per numeri di fattura o codici simili, ti permette di scegliere il principale (con eventuali esclusioni) e crea in automatico le regole di pre-import.
+- **Rimozione Beneficiari Vuoti (Remove Empty Payees)**: Trova e rimuove in modo sicuro tutti i beneficiari che hanno 0 transazioni collegate nel budget (escludendo i conti di trasferimento).
 
 ## Prerequisiti
 
@@ -50,6 +51,12 @@ Esegui la pulizia e consolidamento dei beneficiari duplicati:
 
 ```bash
 uv run cleanup
+```
+
+Esegui lo script per rimuovere i beneficiari vuoti (con 0 transazioni):
+
+```bash
+uv run remove-empty-payees
 ```
 
 ### Comandi Interattivi (Categorizzazione)
@@ -139,6 +146,7 @@ An interactive Python script to inspect and categorize transactions in your self
 - **Interactive Configuration**: Prompts you for connection details if they aren't configured and saves them securely in a local `.env` file.
 - **Multi-language Support (i18n)**: Fully translated to English and Italian. Detects the language set in the `ACTUAL_LANGUAGE` environment variable.
 - **Duplicate Payees Cleanup (Cleanup Wizard)**: Automatically identifies duplicate payees (e.g. variations with invoice numbers), lets you choose the main target, exclude specific entries, and programmatically generates pre-import mapping rules.
+- **Empty Payees Removal (Remove Empty Payees)**: Safely identifies and deletes payees with 0 associated transactions in your budget (excluding transfer payees).
 
 ## Prerequisites
 
@@ -172,6 +180,12 @@ Run the interactive payee cleanup wizard:
 
 ```bash
 uv run cleanup
+```
+
+Run the empty payees cleanup utility (to delete payees with 0 transactions):
+
+```bash
+uv run remove-empty-payees
 ```
 
 ### Interactive Commands (Categorization)
