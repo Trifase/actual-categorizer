@@ -780,9 +780,62 @@ def run_categorization():
         sys.exit(1)
 
 
+def run_menu():
+    # Make sure translations are loaded
+    load_translations()
+    
+    while True:
+        console.print()
+        menu_title = t("menu_title", default="Actual Budget Assistant")
+        
+        # Build a beautiful Rich Panel for the menu
+        menu_text = Text()
+        menu_text.append(f"[1] {t('menu_opt_categorize', default='Categorize Transactions')}\n", style="cyan")
+        menu_text.append(f"[2] {t('menu_opt_cleanup', default='Cleanup Payee Duplicates')}\n", style="yellow")
+        menu_text.append(f"[3] {t('menu_opt_remove_empty', default='Remove Empty Payees')}\n", style="magenta")
+        menu_text.append(f"[Q] {t('menu_opt_quit', default='Exit')}\n", style="red")
+        
+        panel = Panel(
+            menu_text,
+            title=f"[bold white]{menu_title}[/bold white]",
+            expand=False,
+            border_style="blue"
+        )
+        console.print(panel)
+        
+        choice = Prompt.ask(
+            t("menu_prompt", default="Select option"),
+            choices=["1", "2", "3", "Q", "q"],
+            default="1"
+        ).strip().upper()
+        
+        if choice == "1":
+            try:
+                run_categorization()
+            except Exception as e:
+                console.print(f"[red]Error: {e}[/red]")
+        elif choice == "2":
+            try:
+                # Lazy import to avoid circular dependencies
+                from cleanup import run_cleanup
+                run_cleanup()
+            except Exception as e:
+                console.print(f"[red]Error: {e}[/red]")
+        elif choice == "3":
+            try:
+                # Lazy import to avoid circular dependencies
+                from remove_empty_payees import run_remove_empty
+                run_remove_empty()
+            except Exception as e:
+                console.print(f"[red]Error: {e}[/red]")
+        elif choice == "Q":
+            console.print(f"\n[yellow]{t('exiting_gracefully')}[/yellow]")
+            break
+
+
 if __name__ == "__main__":
     try:
-        run_categorization()
+        run_menu()
     except KeyboardInterrupt:
         console.print(f"\n[yellow]{t('exiting_gracefully')}[/yellow]")
         sys.exit(0)

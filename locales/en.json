@@ -96,5 +96,11 @@
   "remove_empty_found": "[yellow]Found {count} payees with 0 transactions:[/yellow]",
   "remove_empty_confirm": "Are you sure you want to delete these {count} empty payees?",
   "remove_empty_deleting": "Deleting empty payees...",
-  "remove_empty_success": "[bold green][Success] Successfully deleted {count} empty payees![/bold green]"
+  "remove_empty_success": "[bold green][Success] Successfully deleted {count} empty payees![/bold green]",
+  "menu_title": "Actual Budget Assistant",
+  "menu_opt_categorize": "Categorize Transactions",
+  "menu_opt_cleanup": "Cleanup Payee Duplicates",
+  "menu_opt_remove_empty": "Remove Empty Payees",
+  "menu_opt_quit": "Exit",
+  "menu_prompt": "Select option"
 }

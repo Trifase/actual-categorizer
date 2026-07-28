@@ -96,5 +96,11 @@
   "remove_empty_found": "[yellow]Trovati {count} beneficiari con 0 transazioni:[/yellow]",
   "remove_empty_confirm": "Sei sicuro di voler eliminare questi {count} beneficiari vuoti?",
   "remove_empty_deleting": "Eliminazione dei beneficiari vuoti...",
-  "remove_empty_success": "[bold green][Success] Eliminati con successo {count} beneficiari vuoti![/bold green]"
+  "remove_empty_success": "[bold green][Success] Eliminati con successo {count} beneficiari vuoti![/bold green]",
+  "menu_title": "Actual Budget Assistant",
+  "menu_opt_categorize": "Categorizza Transazioni",
+  "menu_opt_cleanup": "Pulizia Beneficiari Duplicati",
+  "menu_opt_remove_empty": "Rimozione Beneficiari Vuoti",
+  "menu_opt_quit": "Esci",
+  "menu_prompt": "Seleziona un'opzione"
 }
