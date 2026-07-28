@@ -108,8 +108,53 @@ def test_fuzzy_payee_match():
     print("[OK] test_fuzzy_payee_match passed")
 
 
+from cleanup import normalize_payee_name, get_default_search_term, cluster_payees
+
+class MockPayeeObj:
+    def __init__(self, id, name, transfer_acct=None, tombstone=0):
+        self.id = id
+        self.name = name
+        self.transfer_acct = transfer_acct
+        self.tombstone = tombstone
+
+def test_normalization():
+    assert normalize_payee_name("Commissioni Octopus Energy Italia Sr N: 116204929") == "commissioni octopus energy italia sr"
+    assert normalize_payee_name("Octopus Energy Italia Sr") == "octopus energy italia sr"
+    assert normalize_payee_name("Enel Energia S.p.A. N: 2026/1234") == "enel energia s.p.a"
+    assert normalize_payee_name("Enel S.p.A. 1234567") == "enel s.p.a"
+    print("[OK] test_normalization passed")
+
+def test_default_search_term():
+    assert get_default_search_term("Octopus Energy Italia Sr") == "Octopus Energy Italia"
+    assert get_default_search_term("Enel Energia S.p.A.") == "Enel Energia"
+    assert get_default_search_term("Coop s.r.l.") == "Coop"
+    print("[OK] test_default_search_term passed")
+
+def test_clustering():
+    p1 = MockPayeeObj("1", "Octopus Energy Italia Sr")
+    p2 = MockPayeeObj("2", "Commissioni Octopus Energy Italia Sr N: 116204929")
+    p3 = MockPayeeObj("3", "Octopus Energy")
+    p4 = MockPayeeObj("4", "Other Payee")
+    p_trans = MockPayeeObj("5", "Transfer Payee", transfer_acct="acc1")
+    
+    payees = [p1, p2, p3, p4, p_trans]
+    clusters = cluster_payees(payees)
+    
+    assert len(clusters) == 1
+    cluster_ids = {p.id for p in clusters[0]}
+    assert "1" in cluster_ids
+    assert "2" in cluster_ids
+    assert "3" in cluster_ids
+    assert "4" not in cluster_ids
+    assert "5" not in cluster_ids
+    print("[OK] test_clustering passed")
+
+
 if __name__ == "__main__":
     test_exact_payee_id_match()
     test_notes_substring_match()
     test_fuzzy_payee_match()
+    test_normalization()
+    test_default_search_term()
+    test_clustering()
     print("All tests passed successfully!")
