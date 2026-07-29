@@ -179,6 +179,50 @@ def test_persistent_ignore():
     print("[OK] test_persistent_ignore passed")
 
 
+def test_rules_duplicates_and_redundancies():
+    from rules_cleanup import detect_duplicates_and_redundancies
+    from actual.rules import Rule
+    
+    r0 = Rule(
+        stage="pre",
+        operation="and",
+        conditions=[{"field": "imported_description", "op": "contains", "value": "Octopus"}],
+        actions=[{"field": "description", "op": "set", "value": "11111111-1111-1111-1111-111111111111"}]
+    )
+    r1 = Rule(
+        stage="pre",
+        operation="and",
+        conditions=[{"field": "imported_description", "op": "contains", "value": "Octopus"}],
+        actions=[{"field": "description", "op": "set", "value": "11111111-1111-1111-1111-111111111111"}]
+    )
+    r2 = Rule(
+        stage="pre",
+        operation="and",
+        conditions=[{"field": "imported_description", "op": "contains", "value": "Octopus Energy"}],
+        actions=[{"field": "description", "op": "set", "value": "11111111-1111-1111-1111-111111111111"}]
+    )
+    r3 = Rule(
+        stage="pre",
+        operation="and",
+        conditions=[{"field": "imported_description", "op": "contains", "value": "Enel"}],
+        actions=[{"field": "description", "op": "set", "value": "22222222-2222-2222-2222-222222222222"}]
+    )
+    
+    parsed_rules = [
+        (None, r0),
+        (None, r1),
+        (None, r2),
+        (None, r3),
+    ]
+    
+    exact_dups, redundancies = detect_duplicates_and_redundancies(parsed_rules)
+    
+    assert exact_dups == [1]
+    assert len(redundancies) == 1
+    assert redundancies[0] == (2, 0)
+    print("[OK] test_rules_duplicates_and_redundancies passed")
+
+
 if __name__ == "__main__":
     test_exact_payee_id_match()
     test_notes_substring_match()
@@ -187,4 +231,5 @@ if __name__ == "__main__":
     test_default_search_term()
     test_clustering()
     test_persistent_ignore()
+    test_rules_duplicates_and_redundancies()
     print("All tests passed successfully!")

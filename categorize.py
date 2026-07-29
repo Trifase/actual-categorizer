@@ -793,6 +793,7 @@ def run_menu():
         menu_text.append(f"[1] {t('menu_opt_categorize', default='Categorize Transactions')}\n", style="cyan")
         menu_text.append(f"[2] {t('menu_opt_cleanup', default='Cleanup Payee Duplicates')}\n", style="yellow")
         menu_text.append(f"[3] {t('menu_opt_remove_empty', default='Remove Empty Payees')}\n", style="magenta")
+        menu_text.append(f"[4] {t('menu_opt_rules_cleanup', default='Manage & Clean Rules')}\n", style="blue")
         menu_text.append(f"[Q] {t('menu_opt_quit', default='Exit')}\n", style="red")
         
         panel = Panel(
@@ -805,7 +806,7 @@ def run_menu():
         
         choice = Prompt.ask(
             t("menu_prompt", default="Select option"),
-            choices=["1", "2", "3", "Q", "q"],
+            choices=["1", "2", "3", "4", "Q", "q"],
             default="1"
         ).strip().upper()
         
@@ -826,6 +827,13 @@ def run_menu():
                 # Lazy import to avoid circular dependencies
                 from remove_empty_payees import run_remove_empty
                 run_remove_empty()
+            except Exception as e:
+                console.print(f"[red]Error: {e}[/red]")
+        elif choice == "4":
+            try:
+                # Lazy import to avoid circular dependencies
+                from rules_cleanup import run_rules_cleanup
+                run_rules_cleanup()
             except Exception as e:
                 console.print(f"[red]Error: {e}[/red]")
         elif choice == "Q":

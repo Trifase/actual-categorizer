@@ -18,6 +18,7 @@ Uno script Python interattivo per ispezionare e categorizzare le transazioni pri
 - **Supporto Multi-lingua (i18n)**: Tradotto completamente in italiano e inglese. Rileva la lingua impostata nella variabile `ACTUAL_LANGUAGE` nel file `.env`.
 - **Pulizia Beneficiari Duplicati (Cleanup Wizard)**: Trova automaticamente i beneficiari duplicati che variano solo per numeri di fattura o codici simili, ti permette di scegliere il principale (con eventuali esclusioni) e crea in automatico le regole di pre-import.
 - **Rimozione Beneficiari Vuoti (Remove Empty Payees)**: Trova e rimuove in modo sicuro tutti i beneficiari che hanno 0 transazioni collegate nel budget (escludendo i conti di trasferimento).
+- **Gestione e Pulizia Regole (Rules Manager)**: Consente di visualizzare in modo compatto tutte le regole attive risolvendo i codici UUID in nomi reali, rilevare ed eliminare regole duplicate o ridondanti, ed eliminare regole singole.
 
 ## Prerequisiti
 
@@ -57,6 +58,12 @@ Esegui lo script per rimuovere i beneficiari vuoti (con 0 transazioni):
 
 ```bash
 uv run remove-empty-payees
+```
+
+Esegui lo script di gestione e pulizia delle regole:
+
+```bash
+uv run rules-cleanup
 ```
 
 ### Comandi Interattivi (Categorizzazione)
@@ -147,6 +154,7 @@ An interactive Python script to inspect and categorize transactions in your self
 - **Multi-language Support (i18n)**: Fully translated to English and Italian. Detects the language set in the `ACTUAL_LANGUAGE` environment variable.
 - **Duplicate Payees Cleanup (Cleanup Wizard)**: Automatically identifies duplicate payees (e.g. variations with invoice numbers), lets you choose the main target, exclude specific entries, and programmatically generates pre-import mapping rules.
 - **Empty Payees Removal (Remove Empty Payees)**: Safely identifies and deletes payees with 0 associated transactions in your budget (excluding transfer payees).
+- **Rules Manager and Cleanup (Rules Manager)**: Provides a compact view of active rules with resolved UUID names, automatically detects and bulk-deletes identical or redundant rules, and allows specific rule deletion.
 
 ## Prerequisites
 
@@ -186,6 +194,12 @@ Run the empty payees cleanup utility (to delete payees with 0 transactions):
 
 ```bash
 uv run remove-empty-payees
+```
+
+Run the rules manager cleanup utility:
+
+```bash
+uv run rules-cleanup
 ```
 
 ### Interactive Commands (Categorization)
