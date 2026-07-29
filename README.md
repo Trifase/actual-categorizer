@@ -1,11 +1,11 @@
-# Actual Budget Transaction Categorizer (Italiano / English)
+# Actual Budget Utils (Italiano / English)
 
-* [Versione Italiana](#actual-budget-transaction-categorizer-italiano)
-* [English Version](#actual-budget-transaction-categorizer-english)
+* [Versione Italiana](#actual-budget-utils-italiano)
+* [English Version](#actual-budget-utils-english)
 
 ---
 
-# Actual Budget Transaction Categorizer (Italiano)
+# Actual Budget Utils (Italiano)
 
 Uno script Python interattivo per ispezionare e categorizzare le transazioni prive di categoria all'interno del tuo server autogestito **Actual Budget**.
 
@@ -141,7 +141,7 @@ Salvataggio delle modifiche nel database e sincronizzazione con il server...
 
 ---
 
-# Actual Budget Transaction Categorizer (English)
+# Actual Budget Utils (English)
 
 An interactive Python script to inspect and categorize transactions in your self-hosted **Actual Budget** instance.
 
