@@ -42,10 +42,10 @@ Uno script Python interattivo per ispezionare e categorizzare le transazioni pri
 
 ## Utilizzo
 
-Esegui la categorizzazione interattiva:
+Esegui l'assistente Actual Budget (menu interattivo):
 
 ```bash
-uv run categorize
+uv run actualutils
 ```
 
 Esegui la pulizia e consolidamento dei beneficiari duplicati:
@@ -178,10 +178,10 @@ An interactive Python script to inspect and categorize transactions in your self
 
 ## Usage
 
-Run the interactive categorizer:
+Run the Actual Budget assistant (interactive menu):
 
 ```bash
-uv run categorize
+uv run actualutils
 ```
 
 Run the interactive payee cleanup wizard:
