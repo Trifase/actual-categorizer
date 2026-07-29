@@ -13,6 +13,7 @@ import decimal
 import datetime
 import difflib
 from collections import defaultdict, Counter
+import shutil
 from pathlib import Path
 
 from dotenv import load_dotenv
@@ -476,6 +477,9 @@ def run_categorization():
 
     console.print(t("connecting_download", file=config['budget_file']))
 
+    db_file = None
+    backup_file = None
+
     try:
         with Actual(
             base_url=config["server_url"],
@@ -485,6 +489,18 @@ def run_categorization():
             encryption_password=config.get("encryption_password"),
             cert=config.get("cert", True),
         ) as actual:
+
+            # Resolve local database files
+            db_file = Path(actual._data_dir) / "db.sqlite"
+            backup_file = Path(actual._data_dir) / "db.sqlite.backup"
+
+            # Create backup
+            try:
+                shutil.copy2(db_file, backup_file)
+                console.print(t("cleanup_backup_created", path=backup_file))
+            except Exception as e:
+                console.print(t("cleanup_backup_error", err=e))
+                sys.exit(1)
 
             # Retrieve active category lookup
             categories = get_categories(actual.session)
@@ -530,6 +546,8 @@ def run_categorization():
 
             if not uncategorized_txs:
                 console.print(t("all_categorized"))
+                if backup_file and backup_file.exists():
+                    backup_file.unlink()
                 return
 
             console.print(t("found_uncategorized", count=len(uncategorized_txs)))
@@ -767,13 +785,28 @@ def run_categorization():
                 # Save and Sync
                 actual.commit()
                 console.print(t("sync_success"))
+                if backup_file and backup_file.exists():
+                    backup_file.unlink()
             else:
                 console.print(t("changes_discarded"))
+                if backup_file and backup_file.exists():
+                    shutil.copy2(backup_file, db_file)
+                    backup_file.unlink()
 
     except Exception as e:
-        console.print(
-            f"[bold red]An error occurred during execution: {e}[/bold red]"
-        )
+        if backup_file and db_file and backup_file.exists():
+            try:
+                shutil.copy2(backup_file, db_file)
+                backup_file.unlink()
+                console.print(t("cleanup_restored", err=e))
+            except Exception as restore_err:
+                console.print(
+                    f"[red]Failed to restore backup: {restore_err}[/red]"
+                )
+        else:
+            console.print(
+                f"[bold red]An error occurred during execution: {e}[/bold red]"
+            )
         import traceback
 
         traceback.print_exc()
